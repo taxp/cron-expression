@@ -22,6 +22,7 @@ class CronExpression
     const MONTH = 3;
     const WEEKDAY = 4;
     const YEAR = 5;
+	const WEEK = 6;
 
     /**
      * @var array CRON expression parts
@@ -36,7 +37,7 @@ class CronExpression
     /**
      * @var array Order in which to test of cron parts
      */
-    private static $order = array(self::YEAR, self::MONTH, self::DAY, self::WEEKDAY, self::HOUR, self::MINUTE);
+    private static $order = array(self::WEEK, self::YEAR, self::MONTH, self::DAY, self::WEEKDAY, self::HOUR, self::MINUTE);
 
     /**
      * Factory method to create a new CronExpression.
@@ -317,22 +318,27 @@ class CronExpression
                 // Get the field object used to validate this part
                 $field = $fields[$position];
                 // Check if this is singular or a list
-                if (strpos($part, ',') === false) {
-                    $satisfied = $field->isSatisfiedBy($nextRun, $part);
-                } else {
-                    foreach (array_map('trim', explode(',', $part)) as $listPart) {
-                        if ($field->isSatisfiedBy($nextRun, $listPart)) {
-                            $satisfied = true;
-                            break;
-                        }
-                    }
-                }
 
-                // If the field is not satisfied, then start over
-                if (!$satisfied) {
-                    $field->increment($nextRun, $invert);
-                    continue 2;
-                }
+				if($field instanceof WeekField) {
+					$field->isSatisfiedByDay(clone $currentDate, $nextRun, $part, $invert);
+				} else {
+					if (strpos($part, ',') === false) {
+						$satisfied = $field->isSatisfiedBy($nextRun, $part);
+					} else {
+						foreach (array_map('trim', explode(',', $part)) as $listPart) {
+							if ($field->isSatisfiedBy($nextRun, $listPart)) {
+								$satisfied = true;
+								break;
+							}
+						}
+					}
+
+					// If the field is not satisfied, then start over
+					if (!$satisfied) {
+						$field->increment($nextRun, $invert);
+						continue 2;
+					}
+				}
             }
 
             // Skip this match if needed

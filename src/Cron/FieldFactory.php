@@ -43,6 +43,9 @@ class FieldFactory
                 case 5:
                     $this->fields[$position] = new YearField();
                     break;
+				case 6:
+					$this->fields[$position] = new WeekField();
+					break;
                 default:
                     throw new \InvalidArgumentException(
                         $position . ' is not a valid position'

@@ -1,7 +1,7 @@
 <?php
  
 namespace Cron;
-/*test*/
+
 /**
  * Abstract CRON expression field
  */
