@@ -22,8 +22,12 @@ class WeekField extends AbstractField
         $value = $this->convertLiterals($value);
 
 		list($weekdays, $nth) = explode('/', $value);
-		$weekdays = explode(',', $weekdays);
-
+		if($weekdays == '*') {
+			$weekdays = range(1, 7);
+		} else {
+			$weekdays = explode(',', $weekdays);
+		}
+		
 		foreach($weekdays as $key => $weekday) {
 			// 0 and 7 are both Sunday, however 7 matches date('N') format ISO-8601
 			if ($weekday === '0') {
@@ -83,7 +87,7 @@ class WeekField extends AbstractField
     public function validate($value)
     {
         $value = $this->convertLiterals($value);
-		return (bool) preg_match('/^(([0-7],)*([0-7])(\/([1-9]|1[0-9]|2[0-9]|30)))$/', $value);
+		return (bool) preg_match('/^((*|([0-7],)*([0-7]))(\/([1-9]|1[0-9]|2[0-9]|30)))$/', $value);
     }
 
     private function convertLiterals($string)
