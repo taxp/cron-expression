@@ -87,7 +87,7 @@ class WeekField extends AbstractField
     public function validate($value)
     {
         $value = $this->convertLiterals($value);
-		return (bool) preg_match('/^((*|([0-7],)*([0-7]))(\/([1-9]|1[0-9]|2[0-9]|30)))$/', $value);
+		return (bool) preg_match('/^((\*|([0-7],)*([0-7]))(\/([1-9]|1[0-9]|2[0-9]|30)))$/', $value);
     }
 
     private function convertLiterals($string)
