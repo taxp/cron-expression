@@ -319,7 +319,13 @@ class CronExpression
                 $field = $fields[$position];
                 // Check if this is singular or a list
 
-				if($field instanceof WeekField) {
+				if($field instanceof WeekField && strpos($part, '/') !== false) {
+					$field->isSatisfiedByDay(clone $currentDate, $nextRun, $part, $invert);
+				} elseif($field instanceof YearField && strpos($part, '/') !== false) {
+					$field->isSatisfiedByDay(clone $currentDate, $nextRun, $part, $invert);
+				} elseif($field instanceof MonthField && strpos($part, '/') !== false) {
+					$field->isSatisfiedByDay(clone $currentDate, $nextRun, $part, $invert);
+				} elseif($field instanceof DayOfMonthField && strpos($part, '/') !== false) {
 					$field->isSatisfiedByDay(clone $currentDate, $nextRun, $part, $invert);
 				} else {
 					if (strpos($part, ',') === false) {

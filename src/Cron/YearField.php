@@ -27,7 +27,24 @@ class YearField extends AbstractField
         return $this;
     }
 
-    public function validate($value)
+	public function isSatisfiedByDay(\DateTime $initialDate, \DateTime $date, $value, $invert)
+	{
+		list(, $nth) = explode('/', $value);
+
+		while(1) {
+			$interval = (int)$date->format('Y') - (int)$initialDate->format('Y');
+
+			if($interval % $nth == 0) {
+				return true;
+			} else {
+				$this->increment($date, $invert);
+			}
+		}
+
+		return false;
+	}
+
+	public function validate($value)
     {
         return (bool) preg_match('/^[\*,\/\-0-9]+$/', $value);
     }
