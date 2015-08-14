@@ -88,7 +88,12 @@ class DayOfMonthField extends AbstractField
 		list(, $nth) = explode('/', $value);
 
 		while(1) {
-			$interval = $date->diff($initialDate);
+			$dateCopy = clone $date;
+			$dateCopy->setTime(0, 0);
+			$initialDateCopy = clone $initialDate;
+			$initialDateCopy->setTime(0, 0);
+
+			$interval = $dateCopy->diff($initialDateCopy);
 
 			if($interval->days % $nth == 0) {
 				return true;
