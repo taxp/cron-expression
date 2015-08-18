@@ -31,7 +31,7 @@ class MonthField extends AbstractField
 		while(1) {
 			$interval = $date->diff($initialDate);
 
-			if($interval->m % $nth == 0) {
+			if((($interval->y * 12) + $interval->m) % $nth == 0) {
 				return true;
 			} else {
 				$this->increment($date, $invert);
