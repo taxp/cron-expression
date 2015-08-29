@@ -42,7 +42,7 @@ class MonthField extends AbstractField
 			$initDate->setDate($Y , $m , 1);
 			$initDate->setTime(0, 0);
 
-			$interval = $date->diff($initialDate);
+			$interval = $currentDate->diff($initialDate);
 
 			if((($interval->y * 12) + $interval->m) % $nth == 0) {
 				return true;
