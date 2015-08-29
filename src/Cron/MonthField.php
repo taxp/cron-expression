@@ -29,6 +29,19 @@ class MonthField extends AbstractField
 		list(, $nth) = explode('/', $value);
 
 		while(1) {
+			$currentDate = clone $date;
+			$initDate = clone $initialDate;
+
+			$m = $currentDate->format('m');
+			$Y = $currentDate->format('Y');
+			$currentDate->setDate($Y , $m , 1);
+			$currentDate->setTime(0, 0);
+
+			$m = $initDate->format('m');
+			$Y = $initDate->format('Y');
+			$initDate->setDate($Y , $m , 1);
+			$initDate->setTime(0, 0);
+
 			$interval = $date->diff($initialDate);
 
 			if((($interval->y * 12) + $interval->m) % $nth == 0) {
