@@ -55,8 +55,11 @@ class WeekField extends AbstractField
 		}
 
 		while(1) {
-			if(in_array($date->format('N'), $weekdays)) {
-				$interval = $date->diff($weekdaysDatesInitial[$date->format('N')]);
+            $currentDate = clone $date;
+            $currentDate->setTime(0, 0);
+
+            if(in_array($currentDate->format('N'), $weekdays)) {
+                $interval = $currentDate->diff($weekdaysDatesInitial[$currentDate->format('N')]);
 
 				if($interval->days % (7 * $nth) == 0) {
 					return true;
